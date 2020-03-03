@@ -1,0 +1,12 @@
+0.2.5
+ImageMagick
+pkgconfig(libavcodec)
+pkgconfig(libavdevice)
+pkgconfig(libavfilter)
+pkgconfig(libavformat)
+pkgconfig(libavresample)
+pkgconfig(libavutil)
+pkgconfig(libpostproc)
+pkgconfig(libswresample)
+pkgconfig(libswscale)
+qtmultimedia-dev
