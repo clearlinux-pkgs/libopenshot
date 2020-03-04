@@ -4,7 +4,7 @@
 #
 Name     : libopenshot
 Version  : 0.2.5
-Release  : 1
+Release  : 2
 URL      : https://github.com/OpenShot/libopenshot/archive/v0.2.5.tar.gz
 Source0  : https://github.com/OpenShot/libopenshot/archive/v0.2.5.tar.gz
 Summary  : A video editing, animation, and playback library for C++, Python, and Ruby
@@ -101,7 +101,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1583269650
+export SOURCE_DATE_EPOCH=1583333469
 mkdir -p clr-build
 pushd clr-build
 # -Werror is for werrorists
@@ -116,13 +116,32 @@ export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
 %cmake ..
 make  %{?_smp_mflags}  VERBOSE=1
 popd
+mkdir -p clr-build-avx2
+pushd clr-build-avx2
+# -Werror is for werrorists
+export GCC_IGNORE_WERROR=1
+export AR=gcc-ar
+export RANLIB=gcc-ranlib
+export NM=gcc-nm
+export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 -march=haswell "
+export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 -march=haswell "
+export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 -march=haswell "
+export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 -march=haswell "
+export CFLAGS="$CFLAGS -march=haswell -m64"
+export CXXFLAGS="$CXXFLAGS -march=haswell -m64"
+%cmake ..
+make  %{?_smp_mflags}  VERBOSE=1
+popd
 
 %install
-export SOURCE_DATE_EPOCH=1583269650
+export SOURCE_DATE_EPOCH=1583333469
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/libopenshot
 cp %{_builddir}/libopenshot-0.2.5/COPYING %{buildroot}/usr/share/package-licenses/libopenshot/c09f9595f49b611cb4815dac18057910e5ff66b3
 cp %{_builddir}/libopenshot-0.2.5/thirdparty/jsoncpp/LICENSE %{buildroot}/usr/share/package-licenses/libopenshot/d9bddd7f273bd065b5fdeb67afac0b26b6541a50
+pushd clr-build-avx2
+%make_install_avx2  || :
+popd
 pushd clr-build
 %make_install
 popd
@@ -206,10 +225,13 @@ popd
 /usr/include/libopenshot/effects/Saturation.h
 /usr/include/libopenshot/effects/Shift.h
 /usr/include/libopenshot/effects/Wave.h
+/usr/lib64/haswell/libopenshot.so
 /usr/lib64/libopenshot.so
 
 %files lib
 %defattr(-,root,root,-)
+/usr/lib64/haswell/libopenshot.so.0.2.5
+/usr/lib64/haswell/libopenshot.so.19
 /usr/lib64/libopenshot.so.0.2.5
 /usr/lib64/libopenshot.so.19
 
