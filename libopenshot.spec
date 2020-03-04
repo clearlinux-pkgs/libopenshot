@@ -4,7 +4,7 @@
 #
 Name     : libopenshot
 Version  : 0.2.5
-Release  : 2
+Release  : 3
 URL      : https://github.com/OpenShot/libopenshot/archive/v0.2.5.tar.gz
 Source0  : https://github.com/OpenShot/libopenshot/archive/v0.2.5.tar.gz
 Summary  : A video editing, animation, and playback library for C++, Python, and Ruby
@@ -15,6 +15,7 @@ Requires: libopenshot-license = %{version}-%{release}
 Requires: libopenshot-python = %{version}-%{release}
 Requires: libopenshot-python3 = %{version}-%{release}
 BuildRequires : ImageMagick
+BuildRequires : ImageMagick-dev
 BuildRequires : buildreq-cmake
 BuildRequires : cmake
 BuildRequires : cppzmq-dev
@@ -101,7 +102,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1583333469
+export SOURCE_DATE_EPOCH=1583334478
 mkdir -p clr-build
 pushd clr-build
 # -Werror is for werrorists
@@ -134,7 +135,7 @@ make  %{?_smp_mflags}  VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1583333469
+export SOURCE_DATE_EPOCH=1583334478
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/libopenshot
 cp %{_builddir}/libopenshot-0.2.5/COPYING %{buildroot}/usr/share/package-licenses/libopenshot/c09f9595f49b611cb4815dac18057910e5ff66b3

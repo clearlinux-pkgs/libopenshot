@@ -3,3 +3,4 @@
 libopenshot-audio-dev
 libzmq-dev
 cppzmq-dev
+ImageMagick-dev
